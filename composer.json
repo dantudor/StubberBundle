@@ -1,0 +1,27 @@
+{
+    "name": "dantudor/stubber-bundle",
+    "type": "library",
+    "description": "Symfony2 Stubber Bundle",
+    "keywords": ["stubber", "stub", "server", "mock", "test"],
+    "homepage": "http://github.com/dantudor/StubberBundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dan Tudor",
+            "email": "dtudor01@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-0": { "Stubber\\Bundle": "src/" }
+    },
+    "require": {
+        "php": ">=5.3",
+        "dantudor/stubber": "dev-master",
+        "symfony/http-kernel": ">=2.1",
+        "symfony/http-foundation": ">=2.1"
+    },
+    "require-dev": {
+        "mockery/mockery": "dev-master@dev"
+    }
+}
