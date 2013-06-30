@@ -3,7 +3,6 @@
 namespace Stubber\Bundle\Application;
 
 use Stubber\Application\AbstractApplication;
-use Stubber\Server;
 use React\Http\Request;
 use React\Http\Response;
 use Stubber\Bundle\HttpKernel\Kernel as StubberKernel;
@@ -22,18 +21,17 @@ class Symfony2Application extends AbstractApplication
     protected $kernel;
 
     /**
-     * Constructor
+     * Set Kernel
      *
-     * @param string $host
-     * @param int    $port
-     * @param Server $server
      * @param StubberKernel $kernel
+     *
+     * @return $this
      */
-    public function __construct($host, $port, Server $server, StubberKernel $kernel)
+    public function setKernel(StubberKernel $kernel)
     {
-        parent::__construct($host, $port, $server);
-
         $this->kernel = $kernel;
+
+        return $this;
     }
 
     /**

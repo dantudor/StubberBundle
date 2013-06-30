@@ -6,13 +6,13 @@ class Symfony2ApplicationTest extends PHPUnit_Framework_TestCase
 {
     public function testGetKernel()
     {
-        $host = '127.0.0.1';
-        $port = 8080;
         $server = Mockery::mock('\Stubber\Server');
         $kernel = Mockery::mock('\Stubber\Bundle\HttpKernel\Kernel');
 
-        $application = new Symfony2Application($host, $port, $server, $kernel);
+        $application = new Symfony2Application($server);
 
+        $this->assertNull($application->getKernel());
+        $this->assertSame($application, $application->setKernel($kernel));
         $this->assertSame($kernel, $application->getKernel());
     }
 
@@ -40,7 +40,12 @@ class Symfony2ApplicationTest extends PHPUnit_Framework_TestCase
         $kernel = Mockery::mock('\Stubber\Bundle\HttpKernel\Kernel');
         $kernel->shouldReceive('handle')->once()->andReturn($symfonyResponse);
 
-        $application = new Symfony2Application($host, $port, $server, $kernel);
-        $application->handleRequest($request, $response);
+        $application = new Symfony2Application($server);
+        $application
+            ->setHost($host)
+            ->setPort($port)
+            ->setKernel($kernel)
+            ->handleRequest($request, $response)
+        ;
     }
 }
