@@ -53,7 +53,7 @@ class Symfony2Application extends AbstractApplication
     public function handleRequest(Request $request, Response $response)
     {
         $kernelResponse = $this->kernel->handle(StubberRequest::create(
-            'http://' . $this->getHost() . ':' . $this->getPort() . $request->getPath()
+            'http://' . $this->getServer()->getHost() . ':' . $this->getServer()->getPort() . $request->getPath()
         ));
         $response->writeHead($kernelResponse->getStatusCode(), array('Content-Type' => 'text/html'));
         $response->end($kernelResponse->getContent());

@@ -23,6 +23,8 @@ class Symfony2ApplicationTest extends PHPUnit_Framework_TestCase
         $responseStatusCode = 200;
 
         $server = Mockery::mock('\Stubber\Server');
+        $server->shouldReceive('getHost')->once()->andReturn($host);
+        $server->shouldReceive('getPort')->once()->andReturn($port);
 
         $request = Mockery::mock('\React\Http\Request');
         $request->shouldReceive('getPath')->once();
@@ -36,14 +38,11 @@ class Symfony2ApplicationTest extends PHPUnit_Framework_TestCase
         $symfonyResponse->shouldReceive('getStatusCode')->andReturn($responseStatusCode);
         $symfonyResponse->shouldReceive('getContent');
 
-
         $kernel = Mockery::mock('\Stubber\Bundle\HttpKernel\Kernel');
         $kernel->shouldReceive('handle')->once()->andReturn($symfonyResponse);
 
         $application = new Symfony2Application($server);
         $application
-            ->setHost($host)
-            ->setPort($port)
             ->setKernel($kernel)
             ->handleRequest($request, $response)
         ;
