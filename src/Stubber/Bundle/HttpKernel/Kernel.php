@@ -16,11 +16,23 @@ abstract class Kernel extends BaseKernel
      *
      * @param string  $environment   The environment
      * @param Boolean $debug         Whether to enable debugging or not
-     * @param string  $rootDirectory The root kernel directory
      */
-    public function __construct($environment, $debug, $rootDirectory)
+    public function __construct($environment, $debug)
     {
         parent::__construct($environment, $debug);
+    }
+
+    /**
+     * Set Root Directory
+     *
+     * @param $rootDirectory
+     *
+     * @return Kernel
+     */
+    public function setRootDirectory($rootDirectory)
+    {
         $this->rootDir = $rootDirectory;
+
+        return $this;
     }
 }
