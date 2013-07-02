@@ -11,8 +11,9 @@ class KernelTest extends PHPUnit_Framework_TestCase
         $debug = true;
         $rootDirectory = 'mfs://mock/root/directory';
 
-        $kernel = new TestKernel($environment, $debug, $rootDirectory);
-
+        $kernel = new TestKernel($environment, $debug);
+        
+        $this->assertSame($kernel, $kernel->setRootDirectory($rootDirectory));
         $this->assertSame($rootDirectory, $kernel->getRootDir());
     }
 }
