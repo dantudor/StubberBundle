@@ -1,0 +1,18 @@
+parameters:
+    stubber:
+    stubber.environment: prod
+    stubber.debug: false
+    stubber.root_dir: %kernel.root_dir%/../stubber
+
+services:
+    stubber.process_service:
+        class:    Stubber\Service\ProcessService
+        arguments: [%stubber.root_dir%/process]
+
+    stubber.server:
+        class:     Stubber\Server
+        arguments: [@stubber.process_service]
+
+    stubber.symfony2application:
+        class:     Stubber\Bundle\Application\Symfony2Application
+        arguments: [@stubber.server]
