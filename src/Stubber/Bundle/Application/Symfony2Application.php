@@ -35,6 +35,20 @@ class Symfony2Application extends AbstractApplication
     }
 
     /**
+     * Set Kernel Root Directory
+     *
+     * @param $rootDirectory
+     *
+     * @return $this
+     */
+    public function setKernelRootDirectory($rootDirectory)
+    {
+        $this->kernel->setRootDirectory($rootDirectory);
+
+        return $this;
+    }
+
+    /**
      * Get Kernel
      *
      * @return Kernel
