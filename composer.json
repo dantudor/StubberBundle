@@ -25,5 +25,6 @@
     },
     "require-dev": {
         "mockery/mockery": "dev-master@dev"
-    }
+    },
+    "minimum-stability": "dev"
 }
