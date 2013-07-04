@@ -1,12 +1,17 @@
 parameters:
-    stubber:
     stubber.environment: prod
     stubber.debug: false
     stubber.root_dir: %kernel.root_dir%/../stubber
 
 services:
+    stubber.process:
+        class:     Pagon\ChildProcess\ChildProcess
+        public:    false
+
     stubber.server:
         class:     Stubber\Server
+        arguments: [@stubber.process]
+        public:    false
 
     stubber.symfony2application:
         class:     Stubber\Bundle\Application\Symfony2Application
