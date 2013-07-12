@@ -20,7 +20,7 @@ services:
 
     stubber.server:
         class:     Stubber\Server
-        arguments: [@stubber.process]
+        arguments: [@stubber.process, @stubber.primer]
         public:    false
 
     stubber.symfony2application:
