@@ -7,6 +7,8 @@ class Symfony2ApplicationTest extends PHPUnit_Framework_TestCase
     public function testGetKernel()
     {
         $server = Mockery::mock('\Stubber\Server');
+        $server->shouldReceive('setApplication')->andReturn($server);
+
         $kernel = Mockery::mock('\Stubber\Bundle\HttpKernel\Kernel');
 
         $application = new Symfony2Application($server);
@@ -23,6 +25,7 @@ class Symfony2ApplicationTest extends PHPUnit_Framework_TestCase
         $responseStatusCode = 200;
 
         $server = Mockery::mock('\Stubber\Server');
+        $server->shouldReceive('setApplication')->andReturn($server);
         $server->shouldReceive('getHost')->once()->andReturn($host);
         $server->shouldReceive('getPort')->once()->andReturn($port);
 
