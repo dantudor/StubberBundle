@@ -2,10 +2,20 @@ parameters:
     stubber.environment: prod
     stubber.debug: false
     stubber.root_dir: %kernel.root_dir%/../stubber
+    stubber.app_dir: %stubber.root_dir%/apps
 
 services:
+    posix:
+        class:     Posix\Posix
+
     stubber.process:
-        class:     Pagon\ChildProcess\ChildProcess
+        class:     Stubber\ProcessManager
+        arguments: [@filesystem, @posix, %stubber.root_dir%/process]
+        public:    false
+
+    stubber.primer:
+        class:     Stubber\Primer
+        arguments: [@filesystem, @jms_serializer, %stubber.root_dir%/primer]
         public:    false
 
     stubber.server:
