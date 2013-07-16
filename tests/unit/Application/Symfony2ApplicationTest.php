@@ -24,13 +24,22 @@ class Symfony2ApplicationTest extends PHPUnit_Framework_TestCase
         $port = 8080;
         $responseStatusCode = 200;
 
+        $primedRequest = Mockery::mock('\Stubber\Primer\Request');
+        $primedRequest->shouldIgnoreMissing();
+
+        $primer = Mockery::mock('\Stubber\Primer');
+        $primer->shouldReceive('isPrimed')->andReturn(true);
+        $primer->shouldReceive('getNextPrimedRequest')->andReturn($primedRequest);
+
         $server = Mockery::mock('\Stubber\Server');
         $server->shouldReceive('setApplication')->andReturn($server);
         $server->shouldReceive('getHost')->once()->andReturn($host);
         $server->shouldReceive('getPort')->once()->andReturn($port);
+        $server->shouldReceive('getPrimer')->once()->andReturn($primer);
 
         $request = Mockery::mock('\React\Http\Request');
         $request->shouldReceive('getPath')->once();
+        $request->shouldIgnoreMissing();
 
         $response = Mockery::mock('\React\Http\Response');
         $response->shouldReceive('writeHead')->once()->with($responseStatusCode, array('Content-Type' => 'text/html'));

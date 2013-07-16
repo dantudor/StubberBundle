@@ -5,8 +5,9 @@ namespace Stubber\Bundle\Application;
 use Stubber\Application\AbstractApplication;
 use React\Http\Request;
 use React\Http\Response;
-use Stubber\Bundle\HttpKernel\Kernel as StubberKernel;
-use Stubber\Bundle\HttpFoundation\Request as StubberRequest;
+use Stubber\Bundle\HttpKernel\Kernel as SymfonyKernel;
+use Stubber\Bundle\HttpFoundation\Request as SymfonyRequest;
+use Stubber\Exception\PrimerException;
 
 /**
  * Class Symfony2Application
@@ -23,11 +24,11 @@ class Symfony2Application extends AbstractApplication
     /**
      * Set Kernel
      *
-     * @param StubberKernel $kernel
+     * @param SymfonyKernel $kernel
      *
      * @return $this
      */
-    public function setKernel(StubberKernel $kernel)
+    public function setKernel(SymfonyKernel $kernel)
     {
         $this->kernel = $kernel;
 
@@ -52,10 +53,18 @@ class Symfony2Application extends AbstractApplication
      */
     public function handleRequest(Request $request, Response $response)
     {
-        $kernelResponse = $this->kernel->handle(StubberRequest::create(
-            'http://' . $this->getServer()->getHost() . ':' . $this->getServer()->getPort() . $request->getPath()
-        ));
-        $response->writeHead($kernelResponse->getStatusCode(), array('Content-Type' => 'text/html'));
-        $response->end($kernelResponse->getContent());
+        try {
+            $expectedRequest = $this->getExpectedRequest();
+            if (true === $this->validateRequest($expectedRequest, $request)) {
+                $kernelResponse = $this->kernel->handle(SymfonyRequest::create(
+                    'http://' . $this->getServer()->getHost() . ':' . $this->getServer()->getPort() . $request->getPath()
+                ));
+                $response->writeHead($kernelResponse->getStatusCode(), array('Content-Type' => 'text/html'));
+                $response->end($kernelResponse->getContent());
+            }
+        } catch(PrimerException $e) {
+            $response->writeHead(418, array('Content-Type' => 'text/html'));
+            $response->end('Stubber not primed for this request');
+        }
     }
 }
