@@ -59,12 +59,12 @@ class Symfony2Application extends AbstractApplication
                 $kernelResponse = $this->kernel->handle(SymfonyRequest::create(
                     'http://' . $this->getServer()->getHost() . ':' . $this->getServer()->getPort() . $request->getPath()
                 ));
-                $response->writeHead($kernelResponse->getStatusCode(), array('Content-Type' => 'text/html'));
+                $response->writeHead($kernelResponse->getStatusCode(), $expectedRequest->getResponseOption('Content-Type')->getOrElse('text/html'));
                 $response->end($kernelResponse->getContent());
             }
         } catch(PrimerException $e) {
             $response->writeHead(418, array('Content-Type' => 'text/html'));
-            $response->end('Stubber not primed for this request');
+            $response->end('Stubber not primed for this request.');
         }
     }
 }
